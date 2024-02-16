@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissor</title>
+        <style>
+            body{
+                background-color: rgb(25,25,25);
+                color : white;
+            }
+        </style>
+    </head>
+    <body>
+        <p class="title">Rock Paper Scissor</p>
+        <button onclick="user = 'Rock'
+            c = guess();
+            result(c);
+        " class="emoji-button">
+        <img src="rock-emoji.png" class="emoji-icons">
+        </button>
+        <button onclick="user = 'Paper'
+            c = guess();
+            result(c);
+        " class="emoji-button">        
+        <img src="paper-emoji.png" class="emoji-icons">
+</button>
+        <button onclick="user = 'Scissor'
+            c = guess();
+            result(c);
+        "  class="emoji-button">
+        <img src="scissor-emoji.png" class="emoji-icons">
+</button>
+        <p class="moves"></p>
+        <p class="result"></p>
+        <p class="scores"></p>
+
+        <button onclick="
+        score.won = 0;
+        score.lost = 0;
+        score.tie = 0;
+        // localStorage.setItem('score', JSON.stringify(score))
+        " style="display:block">Reset</button>
+
+        <style>
+            .title {
+                font-size: 30px;
+            }
+            .emoji-icons {
+                width : 50px;
+            }
+            .emoji-button{
+                width: 120px;
+                height : 120px;
+                background-color: rgb(25,25,25);
+                border-style : solid;
+                border-width: 2px;
+                border-color: white;
+                border-radius : 60px;
+                margin:10px
+            }
+            .image-scores {
+                width : 30px;
+            }
+        </style>
+
+        <script>
+            let user;
+            let possibilities = ['Rock','Paper','Scissor'];
+            let comp;
+            let c;
+            // let won,lost,tie;
+            let score = JSON.parse(localStorage.getItem('score')) || {
+                won : 0,
+                lost : 0,
+                tie : 0
+            };
+
+            function guess(){
+                comp = Math.floor(Math.random()*possibilities.length);
+                c = possibilities[comp];
+                return c;
+            }
+            function displayresult (result , user , c){
+                // document.querySelector('.moves').innerHTML = 'you <img src=`${user}-emoji.png` class="image-scores"> Computer <img src=`${c}-emoji.png` class="image-scores">';
+                // document.querySelector('.result').innerHTML = `You ${result}`;
+                // document.querySelector('.scores').innerHTML = `Won: ${score.won} Lost:${score.lost} Tie: ${score.tie}`;
+               
+                document.querySelector('.moves').innerHTML = `You <img src="${user}-emoji.png" class="image-scores"> Computer <img src="${c}-emoji.png" class="image-scores">`;
+                document.querySelector('.result').innerHTML = `You ${result}`;
+                document.querySelector('.scores').innerHTML = `Won: ${score.won} Lost: ${score.lost} Tie: ${score.tie}`;
+
+
+
+            }
+            function result(c){
+                if((user === 'Rock' && c === 'Scissor') || (user === 'Paper' && c === 'Rock') || (user === 'Scissor' && c === 'Paper')){
+                    score.won++;
+                    displayresult('Won',user,c);
+                }
+                else if(user == c){
+                    score.tie++;
+                    displayresult('Tie',user,c);
+
+                }
+                else{
+                    score.lost++;
+                    displayresult('Lost',user,c);
+                    
+                }
+                localStorage.setItem('score', JSON.stringify(score))
+            }
+
+        </script>
+    </body>
+</html>
